@@ -12,7 +12,7 @@ public class LevelControl : MonoBehaviour{
 
   private void Update(){
       if(nextLevel){
-        if(Input.GetKeyDown(KeyCode.E)){
+        if(Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown("joystick button 2")){
           nextLevel = false;
           SceneManager.LoadScene(levelName);
 

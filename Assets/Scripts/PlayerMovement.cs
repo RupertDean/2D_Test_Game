@@ -37,25 +37,27 @@ public class PlayerMovement : MonoBehaviour{
   }
 
   private void Movement(){
-    if(Input.GetKeyDown(KeyCode.LeftArrow)){
-      anim.transform.Rotate(0, 180, 0);
-    }
-    if(Input.GetKeyUp(KeyCode.LeftArrow)){
-      anim.transform.Rotate(0, 180, 0);
-    }
+    if (Input.GetJoystickNames()[0] != ""){
+      float horizontalInput = Input.GetAxis("Horizontal");
 
-    if(Input.GetKey(KeyCode.LeftArrow)){
+      anim.SetFloat("Walking", speed * horizontalInput);
+      rb.velocity = new Vector2(speed * horizontalInput, rb.velocity.y);
+
+    } else if(Input.GetKey(KeyCode.A)){
       anim.SetFloat("Walking", speed);
       rb.velocity = new Vector2(-speed, rb.velocity.y);
+
     } else{
-      if(Input.GetKey(KeyCode.RightArrow)){
+      if(Input.GetKey(KeyCode.D)){
         anim.SetFloat("Walking", speed);
         rb.velocity = new Vector2(speed, rb.velocity.y);
+
       } else{
         anim.SetFloat("Walking", 0);
         rb.velocity = new Vector2(0, rb.velocity.y);
       }
     }
+
 
   }
 
@@ -76,7 +78,7 @@ public class PlayerMovement : MonoBehaviour{
   void Update(){
     isGrounded();
 
-    if(Input.GetKeyDown(KeyCode.Space) && jumps > 0){
+    if((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 0"))&& jumps > 0){
       anim.SetBool("OnGround", false);
       anim.SetInteger("Jump", 1);
       rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
